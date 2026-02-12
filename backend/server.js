@@ -5,7 +5,7 @@ const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
-const port = 5001;
+const port = 5003;
 
 // Middleware setup
 app.use(cors()); // Allow cross-origin requests from React frontend
