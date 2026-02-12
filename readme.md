@@ -40,10 +40,7 @@ docker-compose -f db-compose-dev.yml up
 cd ../backend
 node setup.js
 ```
-new terminal then run ollama if needed
-```
-ollama run llama3.2
-```
+
 new terminal:
 ```
 cd ./frontend
