@@ -3,7 +3,7 @@
 QuickBites is a recipe website designed for users who want to cook meals quickly and easily. The website features recipes that can be prepared in under 60 minutes. Users can browse recipes, search for recipes by ingredients they already have, and discover meal ideas when they don’t know what to eat. The platform provides simple instructions, ingredient lists, tags, and cooking steps to help users prepare meals conveniently. Our platform also provides a calorie calculator for those who want to stay in good shape.
 
 # Project Features:
-Canva: https://www.canva.com/design/DAG721P9kE4/AM9n5osxIk3XYhvKs_IRMA/edit?utm_content=DAG721P9kE4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton 
+Canva: https://www.canva.com/design/DAG721P9kE4/AM9n5osxIk3XYhvKs_IRMA/edit?utm_content=DAG721P9kE4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton  
 
 - Quick recipes that can be completed in under 60 minutes.
     - All recipes on the website will be limited to meals that can be prepared and cooked in under 60 minutes.
