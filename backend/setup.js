@@ -1,27 +1,64 @@
-const fs = require('fs');
+const pool = require('./config/db');
+const fs = require('fs').promises;
 const path = require('path');
-const db = require('./config/db');
 
-async function setup() {
+async function runSetup() {
+    // We declare connection outside so it's accessible in the catch/finally blocks
+    let connection; 
+
     try {
-        // 1. Read the SQL file
-        const sqlPath = path.join(__dirname, '../database/quickbites-1.0.sql');
-        const sql = fs.readFileSync(sqlPath, 'utf8');
+        console.log("--- Initializing Database Setup from File ---");
 
-        // 2. Run the query
-        console.log('Running setup...');
-        await db.query(sql);
-        
-        console.log('Database setup complete!');
-        
-        // 3. Close the pool (Important! Otherwise the script won't stop)
-        await db.end();
-        process.exit(0); // Exit code 0 means "Success"
+        const sqlFilePath = path.join(__dirname, '..', 'database', 'quickbites-1.0.sql');
+        const schema = await fs.readFile(sqlFilePath, 'utf8');
 
-    } catch (err) {
-        console.error('Error running setup:', err.message);
-        process.exit(1); // Exit code 1 means "Error"
+        const statements = schema
+            .split(/;\s*$/m)
+            .map(s => s.trim())
+            .filter(s => s.length > 0 && !s.startsWith('--'));
+
+        // 1. Get a single connection from the pool
+        connection = await pool.getConnection();
+
+        // 2. Start the transaction
+        await connection.beginTransaction();
+
+        const shouldIgnoreError = (error) => {
+            return error?.code === 'ER_TABLE_EXISTS_ERROR'
+                || error?.code === 'ER_DUP_ENTRY';
+        };
+
+        for (const statement of statements) {
+            console.log(`Executing: ${statement.substring(0, 50)}...`);
+            try {
+                await connection.query(statement);
+            } catch (error) {
+                if (shouldIgnoreError(error)) {
+                    console.warn(`⚠️  Skipped: ${error.code} for statement`);
+                    continue;
+                }
+                throw error;
+            }
+        }
+
+        // 3. Commit changes
+        await connection.commit();
+        console.log("✅ Database successfully synchronized with quickbites-1.0.sql.");
+        
+    } catch (error) {
+        // 4. Rollback using the specific connection
+        if (connection) await connection.rollback();
+        console.error("❌ Setup failed:");
+        console.error(error.stack || error.message);
+        process.exit(1);
+    } finally {
+        // 5. Release the connection back to the pool
+        if (connection) connection.release();
+        console.log("--- Process Finished ---");
+        // Close the pool
+        await pool.end();
+        process.exit(0);
     }
 }
 
-setup();
+runSetup();
