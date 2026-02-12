@@ -87,5 +87,3 @@ Here is a compiled list of 60 recipes that are ready in under 60 minutes, rely m
 58. **Egg Salad Sandwich:** Boiled eggs, mayo, mustard, bread. (20 min) [E, G]
 59. **Potato Leek Soup:** Potatoes, leeks, broth, cream. (45 min) [D] *Blender recommended.*
 60. **Minestrone Soup:** Pasta, beans, zucchini, carrots, tomato broth. (45 min) [G]
-
-Would you like a full step-by-step instruction for any of these specific recipes?
