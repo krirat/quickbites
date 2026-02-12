@@ -29,8 +29,10 @@ Canva: https://www.canva.com/design/DAG721P9kE4/AM9n5osxIk3XYhvKs_IRMA/edit?utm_
     - Built-in unit converter will help the user switch between measurement units (e.g. grams to oz, tablespoons to millilitres).
     - Cost for each ingredient (Low priority)
     - The website will show an estimated ingredients cost.
-      
+  
 ***
+
+
 # Setup
 ```
 cd ../database
