@@ -63,28 +63,7 @@ CREATE TABLE `ingredient` (
 );
 
 INSERT INTO recipe (recipe_name, description, total_time_minutes, difficulty, instructions, base_servings, calories_per_serving)
-VALUES ('Spaghetti Bolognese', 'Test recipe1', 45, 'Easy', 'Step-by-step instructions', 1, 952);
-
-INSERT INTO ingredient (ingredient_name, default_unit, calories_per_unit, cost_per_unit, is_allergen)
-VALUES ('Ground Beef', 'grams', 125, 10, FALSE);
-
-INSERT INTO recipe_ingredient (recipe_id, ingredient_id, quantity, unit)
-VALUES (1, 1, 200, 'grams');
-
-INSERT INTO tool (tool_name)
-VALUES ('Food processor');
-
-INSERT INTO recipe_tool (recipe_id, tool_id)
-VALUES (1, 1);
-
-INSERT INTO tag (tag_name)
-VALUES ('Vegan');
-
-INSERT INTO recipe_tag (recipe_id, tag_id)
-VALUES (1, 1);
-
-INSERT INTO nutrition (recipe_id, protein, fat, carbs, calories)
-VALUES (1, 42, 37, 114, 952);
+VALUES ('Spaghetti Bolognese', 'Description here', 30, 'Easy', 'Step-by-step instructions', 4, 350.5);
 
 ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
 
