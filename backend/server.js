@@ -27,6 +27,21 @@ db.connect(err => {
     console.log('Connected to MySQL Database.');
 });
 
+// Get all ingredients from the database
+app.get('/api/ingredients', (req, res) => {
+    // TRAP CHECK: Double check if your table is 'ingredient' or 'ingredients'
+    const sql = "SELECT * FROM ingredient"; 
+    
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("❌ SQL ERROR:", err.message); 
+            // Safety Net: Return an empty array so .map() doesn't crash the frontend
+            return res.status(500).json([]); 
+        }
+        res.json(results);
+    });
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
