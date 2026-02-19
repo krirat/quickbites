@@ -62,6 +62,21 @@ CREATE TABLE `ingredient` (
   `is_allergen` bool
 );
 
+ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
+
+ALTER TABLE `recipe_tool` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
+
+ALTER TABLE `recipe_tag` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
+
+ALTER TABLE `nutrition` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
+
+ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`ingredient_id`) REFERENCES `ingredient` (`ingredient_id`);
+
+ALTER TABLE `recipe_tool` ADD FOREIGN KEY (`tool_id`) REFERENCES `tool` (`tool_id`);
+
+ALTER TABLE `recipe_tag` ADD FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`);
+
+-- Data insertions
 INSERT INTO recipe (recipe_name, description, total_time_minutes, difficulty, instructions, base_servings, calories_per_serving)
 VALUES ('Spaghetti Bolognese', 'Test recipe1', 45, 'Easy', 'Step-by-step instructions', 1, 952);
 
@@ -85,17 +100,3 @@ VALUES (1, 1);
 
 INSERT INTO nutrition (recipe_id, protein, fat, carbs, calories)
 VALUES (1, 42, 37, 114, 952);
-
-ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
-
-ALTER TABLE `recipe_tool` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
-
-ALTER TABLE `recipe_tag` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
-
-ALTER TABLE `nutrition` ADD FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`);
-
-ALTER TABLE `recipe_ingredient` ADD FOREIGN KEY (`ingredient_id`) REFERENCES `ingredient` (`ingredient_id`);
-
-ALTER TABLE `recipe_tool` ADD FOREIGN KEY (`tool_id`) REFERENCES `tool` (`tool_id`);
-
-ALTER TABLE `recipe_tag` ADD FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`);
