@@ -1,13 +1,13 @@
 import React from 'react';
 import MainPage from './mainPage'; // Change checkboxes
-import RecipeOfTheDay from "./component/RecipeOfTheDay"; // Recommendation Page
+import RecipeOfTheDay from "./components/RecipeOfTheDay"; // Recommendation Page
 
 function App() {
   return (
     <div className="App">
       {/* Recommendation Components */}
-      <RecipeOfTheDay /> 
-      
+      <RecipeOfTheDay />
+
       <hr /> {/* Optional line to separate your sections */}
 
       {/* Check Boxes Components */}
