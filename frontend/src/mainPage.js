@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './MainPage.css';
+import RecipeOfTheDay from "./components/RecipeOfTheDay"; // Recommendation Page
+
 
 function MainPage() {
-    const [ingredientsList, setIngredientsList] = useState([]); 
-    const [selectedIngredients, setSelectedIngredients] = useState([]); 
-    const [filteredRecipes, setFilteredRecipes] = useState([]); 
+    const [ingredientsList, setIngredientsList] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
 
     // Fetch ingredients from your local Express server
     useEffect(() => {
@@ -15,9 +17,9 @@ function MainPage() {
     }, []);
 
     const handleIngredientChange = (ingredientId) => {
-        setSelectedIngredients(prev => 
-            prev.includes(ingredientId) 
-                ? prev.filter(id => id !== ingredientId) 
+        setSelectedIngredients(prev =>
+            prev.includes(ingredientId)
+                ? prev.filter(id => id !== ingredientId)
                 : [...prev, ingredientId]
         );
     };
@@ -39,19 +41,21 @@ function MainPage() {
     };
 
     return (
+
         <div className="main-container">
+            <RecipeOfTheDay />
             <div className="kitchen-card">
                 <h1>What's in your kitchen?</h1>
-                
+
                 {/* SearchBar has been removed */}
 
                 <div className="ingredient-grid">
                     {ingredientsList.map(ing => (
                         <label key={ing.ingredient_id} className="checkbox-container">
-                            <input 
-                                type="checkbox" 
+                            <input
+                                type="checkbox"
                                 checked={selectedIngredients.includes(ing.ingredient_id)}
-                                onChange={() => handleIngredientChange(ing.ingredient_id)} 
+                                onChange={() => handleIngredientChange(ing.ingredient_id)}
                             />
                             <span className="ingredient-name">{ing.ingredient_name}</span>
                         </label>
