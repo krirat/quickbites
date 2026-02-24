@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './MainPage.css';
 import RecipeOfTheDay from "./components/RecipeOfTheDay"; // Recommendation Page
+import SearchBar from './components/searchBar';
 
 
 function MainPage() {
@@ -43,6 +44,7 @@ function MainPage() {
     return (
 
         <div className="main-container">
+            <SearchBar />
             <RecipeOfTheDay />
             <div className="kitchen-card">
                 <h1>What's in your kitchen?</h1>
