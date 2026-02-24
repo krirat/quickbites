@@ -122,6 +122,30 @@ app.get('/api/recipe/:id', (req, res) => {
     });
 });
 
+app.get('/api/get-recipes', (req, res) => {
+    const sql = `
+        SELECT
+            r.recipe_id,
+            r.recipe_name,
+            r.description,
+            r.total_time_minutes,
+            r.difficulty,
+            tg.tag_name
+        FROM recipe r
+        LEFT JOIN recipe_tag rt ON rt.recipe_id = r.recipe_id
+        LEFT JOIN tag tg ON tg.tag_id = rt.tag_id
+        ORDER BY r.recipe_id;
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('❌ SQL ERROR (get-recipes):', err.message);
+            return res.status(500).json({ error: 'Database error while fetching recipes' });
+        }
+        return res.json(results);
+    });
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
