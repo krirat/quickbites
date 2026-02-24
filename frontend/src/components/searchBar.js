@@ -14,7 +14,7 @@ function SearchBar({ data_source }) {
     const [search, setSearch] = useState('');
     const [filteredTitle, setFilteredTitle] = useState([]);
 
-    // DeBounce Function
+    //start searching after user stops typing for 800ms
     useDebounce(() => {
         setFilteredTitle(
             data.filter((d) => d.title.toLowerCase().includes(search.toLowerCase()))
