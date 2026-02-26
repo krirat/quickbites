@@ -22,7 +22,7 @@ services:
       PMA_HOST: mysql_db # Connects phpMyAdmin to the 'mysql_db' service
       MYSQL_ROOT_PASSWORD: CEiAdmin0 # Use the same root password as MySQL
     ports:
-      - "8081:80" # Expose phpMyAdmin on host port 8080
+      - "8081:80" # Expose phpMyAdmin on host port 8081
     restart: always
 
 volumes:

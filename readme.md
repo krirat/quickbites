@@ -37,20 +37,19 @@ Canva: https://www.canva.com/design/DAG721P9kE4/AM9n5osxIk3XYhvKs_IRMA/edit?utm_
 ```
 cd ../database
 docker-compose -f db-compose-dev.yml up
+```
+new terminal:
+```
 cd ../backend
 node setup.js
+npm install
+node server.js
 ```
+
 
 new terminal:
 ```
 cd ./frontend
 npm install
-npm run dev
-```
-
-new terminal:
-```
-cd ../backend
-npm install
-node server.js
+npm start
 ```
