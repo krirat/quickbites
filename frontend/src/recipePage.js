@@ -1,7 +1,8 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router'; // 1. Added useNavigate
+import { useParams, useNavigate } from 'react-router'; 
 import IntroSection from "./components/introSection";
 import RecipeDetail from "./components/RecipeDetail";
+import RecipeHowto from "./components/RecipeHowto";
 
 function RecipePage() {
     const { id } = useParams();
@@ -18,7 +19,8 @@ function RecipePage() {
             </button>
 
             <IntroSection recipeId={id} />
-            <RecipeDetail />
+            <RecipeDetail recipeId={id} />
+            <RecipeHowto   recipeId={id}/>
         </div>
     );
 }

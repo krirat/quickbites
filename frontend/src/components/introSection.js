@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 function IntroSection({ recipeId }) {
     // Temporary mock data to match your RecipeDetail.js logic
     const recipeData = {
