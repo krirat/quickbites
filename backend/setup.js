@@ -12,16 +12,31 @@ async function runSetup() {
         const sqlFilePath = path.join(__dirname, '..', 'database', 'quickbites-1.0.sql');
         const schema = await fs.readFile(sqlFilePath, 'utf8');
 
-        const statements = schema
-            .split(/;\s*$/m)
+        const tableNames = Array.from(
+            schema.matchAll(/CREATE\s+TABLE\s+`?([a-zA-Z0-9_]+)`?/gi),
+            match => match[1]
+        );
+
+        const sanitizedSchema = schema.replace(/^\s*--.*$/gm, '');
+
+        const statements = sanitizedSchema
+            .split(/;\s*(?:\r?\n|$)/)
             .map(s => s.trim())
-            .filter(s => s.length > 0 && !s.startsWith('--'));
+            .filter(s => s.length > 0);
 
         // 1. Get a single connection from the pool
         connection = await pool.getConnection();
 
         // 2. Start the transaction
         await connection.beginTransaction();
+
+        if (tableNames.length > 0) {
+            await connection.query('SET FOREIGN_KEY_CHECKS = 0');
+            for (const tableName of tableNames.reverse()) {
+                await connection.query(`DROP TABLE IF EXISTS \`${tableName}\``);
+            }
+            await connection.query('SET FOREIGN_KEY_CHECKS = 1');
+        }
 
         const shouldIgnoreError = (error) => {
             return error?.code === 'ER_TABLE_EXISTS_ERROR'
