@@ -33,12 +33,14 @@ function IntroSection({ recipeId }) {
     };
 
     return (
-        <div className="bg-yellow-100 w-full">
-            <div className="flex space-between w-full">
-                <img src={currentRecipe.img} alt="Intro Image" className="intro-image" style={{width: '300px', height: 'auto'}} />
-                <div className="flex flex-col divide-solid divide-y">
-                    <h1 className="font-bold text-3xl">{currentRecipe.title}</h1>
-                    <div className="flex gap-4 bg-white p-4 m-2 rounded-lg">
+        <div className="bg-[#fce181] w-full p-8">
+            <div className="flex justify-between items-center">
+                {/*TODO: use relative position for white bg */}
+                <img src={currentRecipe.img} alt="Intro Image" className="intro-image rotate-[9deg]" style={{ width: '500px', height: 'auto' }} />
+                <div className="pl-8 flex flex-col">
+                    <h1 className="font-semibold text-5xl p-4">{currentRecipe.title}</h1>
+                    <hr className='border-black border-2' />
+                    <div className="flex justify-evenly bg-white p-4 m-2 rounded-lg">
                         <div>
                             <h2 className="font-bold">Difficulty</h2>
                             <p>{currentRecipe.difficulty}</p>
