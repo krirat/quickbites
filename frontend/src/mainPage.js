@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './MainPage.css';
-import RecipeOfTheDay from "./components/RecipeOfTheDay"; // Recommendation Page
+import { useNavigate } from 'react-router'; // ✅ Added
+import RecipeOfTheDay from "./components/RecipeOfTheDay";
 import SearchBar from './components/searchBar';
-
 
 function MainPage() {
     const [ingredientsList, setIngredientsList] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [filteredRecipes, setFilteredRecipes] = useState([]);
+    const navigate = useNavigate(); // ✅ Added
 
-    // Fetch ingredients from your local Express server
     useEffect(() => {
         fetch('http://localhost:5003/api/ingredients')
             .then(res => res.json())
@@ -30,7 +30,6 @@ function MainPage() {
             alert("Please select at least one ingredient!");
             return;
         }
-
         const ids = selectedIngredients.join(',');
         fetch(`http://localhost:5003/api/recipes/filter?ingredients=${ids}`)
             .then(res => res.json())
@@ -42,15 +41,11 @@ function MainPage() {
     };
 
     return (
-
         <div className="main-container">
             <SearchBar />
             <RecipeOfTheDay />
             <div className="kitchen-card">
                 <h1>What's in your kitchen?</h1>
-
-                {/* SearchBar has been removed */}
-
                 <div className="ingredient-grid">
                     {ingredientsList.map(ing => (
                         <label key={ing.ingredient_id} className="checkbox-container">
@@ -63,7 +58,6 @@ function MainPage() {
                         </label>
                     ))}
                 </div>
-
                 <button className="search-btn" onClick={handleSearch}>
                     Search
                 </button>
@@ -76,7 +70,13 @@ function MainPage() {
                             <div key={recipe.recipe_id} className="recipe-card">
                                 <h3>{recipe.recipe_name}</h3>
                                 <p>{recipe.description}</p>
-                                <button className="view-recipe-btn">View Full Recipe</button>
+                                {/* ✅ Now navigates to the full recipe page */}
+                                <button
+                                    className="view-recipe-btn"
+                                    onClick={() => navigate(`/recipes/${recipe.recipe_id}`)}
+                                >
+                                    View Full Recipe
+                                </button>
                             </div>
                         ))}
                     </div>
