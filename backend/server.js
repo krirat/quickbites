@@ -143,7 +143,23 @@ app.get('/api/get-recipes', (req, res) => {
             console.error('❌ SQL ERROR (get-recipes):', err.message);
             return res.status(500).json({ error: 'Database error while fetching recipes' });
         }
-        return res.json(results);
+
+        const result = Object.values(results.reduce((acc, recipe) => {
+            const { recipe_id, tag_name } = recipe;
+
+            if (!acc[recipe_id]) {
+                // Create new entry with tag_name as an array
+                acc[recipe_id] = { ...recipe, tag_name: [tag_name] };
+            } else {
+                // Add tag to existing entry if it's not already there
+                if (!acc[recipe_id].tag_name.includes(tag_name)) {
+                    acc[recipe_id].tag_name.push(tag_name);
+                }
+            }
+            return acc;
+        }, {}));
+
+        return res.json(result);
     });
 });
 
