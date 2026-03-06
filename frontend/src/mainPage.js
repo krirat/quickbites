@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MainPage.css';
 import { useNavigate } from 'react-router'; // ✅ Added
 import RecipeOfTheDay from "./components/RecipeOfTheDay";
-import SearchBar from './components/searchBar';
+import HeroSection from './components/HeroSection';
 
 function MainPage() {
     const [ingredientsList, setIngredientsList] = useState([]);
@@ -42,7 +42,7 @@ function MainPage() {
 
     return (
         <div className="main-container">
-            <SearchBar />
+            <HeroSection />
             <RecipeOfTheDay />
             <div className="kitchen-card">
                 <h1>What's in your kitchen?</h1>
