@@ -16,7 +16,8 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root', // CHANGE THIS to your MySQL username
     password: 'CEiAdmin0', // CHANGE THIS to your MySQL password
-    database: 'ceidb' // Ensure this matches your database name
+    database: 'ceidb', // Ensure this matches your database name
+    port: 3307 // CHANGE THIS if your MySQL server is running on a different port
 });
 
 db.connect(err => {
@@ -30,13 +31,13 @@ db.connect(err => {
 // Get all ingredients from the database
 app.get('/api/ingredients', (req, res) => {
     // TRAP CHECK: Double check if your table is 'ingredient' or 'ingredients'
-    const sql = "SELECT * FROM ingredient"; 
-    
+    const sql = "SELECT * FROM ingredient";
+
     db.query(sql, (err, results) => {
         if (err) {
-            console.error("❌ SQL ERROR:", err.message); 
+            console.error("❌ SQL ERROR:", err.message);
             // Safety Net: Return an empty array so .map() doesn't crash the frontend
-            return res.status(500).json([]); 
+            return res.status(500).json([]);
         }
         res.json(results);
     });
