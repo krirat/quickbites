@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SearchBar from "./searchBar";
+import Tags from "./Tags";
 
 const recipes = [
   {
@@ -322,50 +324,54 @@ export default function RecipeCards() {
 
       <div className="page">
         <h1 className="page-title">Full Recipes</h1>
+        <div className="flex flex-col items-center gap-4 mb-8">
+          <SearchBar data_source="http://localhost:5003/api/recipes" />
+          <Tags tags={["Italian", "Beef"]} />
+        </div>
         <div className="grid">
-        {recipes.map((r) => (
-          <div
-            key={r.id}
-            className={`card${selected === r.id ? " selected" : ""}`}
-            onClick={() => setSelected(r.id)}
-            onMouseEnter={() => setHovered(r.id)}
-            onMouseLeave={() => setHovered(null)}
-          >
-            <div className="card-image-wrap">
-              <img src={r.image} alt={r.title} />
-            </div>
-
-            <div className="card-body">
-              <h2 className="card-title">{r.title}</h2>
-
-              <div className="card-meta">
-                <div className="card-time">
-                  <div className="clock-icon" />
-                  {r.time}
-                </div>
-                <div className="tags-row">
-                  {r.tags.map((tag, i) => (
-                    <div
-                      key={i}
-                      className="tag"
-                      style={{ background: tag.color }}
-                      title={tag.label}
-                    >
-                      {tag.label.length <= 2 ? tag.label : tag.label.slice(0, 1)}
-                    </div>
-                  ))}
-                  <div className="tag-bar" />
-                </div>
+          {recipes.map((r) => (
+            <div
+              key={r.id}
+              className={`card${selected === r.id ? " selected" : ""}`}
+              onClick={() => setSelected(r.id)}
+              onMouseEnter={() => setHovered(r.id)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <div className="card-image-wrap">
+                <img src={r.image} alt={r.title} />
               </div>
 
-              <p className="card-desc">{r.description}</p>
-            </div>
+              <div className="card-body">
+                <h2 className="card-title">{r.title}</h2>
 
-            <div className="card-footer">
-              <button className="view-btn">View Full Recipe</button>
+                <div className="card-meta">
+                  <div className="card-time">
+                    <div className="clock-icon" />
+                    {r.time}
+                  </div>
+                  <div className="tags-row">
+                    {r.tags.map((tag, i) => (
+                      <div
+                        key={i}
+                        className="tag"
+                        style={{ background: tag.color }}
+                        title={tag.label}
+                      >
+                        {tag.label.length <= 2 ? tag.label : tag.label.slice(0, 1)}
+                      </div>
+                    ))}
+                    <div className="tag-bar" />
+                  </div>
+                </div>
+
+                <p className="card-desc">{r.description}</p>
+              </div>
+
+              <div className="card-footer">
+                <button className="view-btn">View Full Recipe</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         </div>
       </div>
     </>
