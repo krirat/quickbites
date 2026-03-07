@@ -21,26 +21,26 @@ function SearchBar({ recipe_tags, initialInput = '', onInput, onTagToggle }) {
     const handleSearchInput = (e) => onInput(e.target.value);
 
     return (
-        <div className="flex border-black border-2 max-w-screen-sm">
+        <div className="flex justify-center w-full ">
             <input
                 id="search"
-                className="w-full p-2 focus:outline-none"
+                className="p-4 max-w-screen-sm w-full focus:outline-none border-2 border-black rounded-l-lg border-r-0"
                 type="text"
                 spellCheck="false"
                 placeholder="Find a recipe"
                 value={initialInput}
                 onChange={handleSearchInput}
             />
-            <div className="relative h-full">
+            <div className="relative h-full ">
                 <button
-                    className="border-black border-l-2 px-5 py-2 bg-[#a4a507] hover:bg-[#8a8b06] h-full"
+                    className="border-black border-2 rounded-r-lg px-5 py-4 bg-[#a4a507] hover:bg-[#8a8b06] h-full font-bold"
                     onClick={() => setIsFilterOpen(!isFilterOpen)}
                     onBlur={() => setIsFilterOpen(false)}
                 >
-                    Filter
+                    Filters
                 </button>
                 {isFilterOpen && (
-                    <ul className="absolute top-full right-0 w-max border-black border-2 bg-white max-h-40 overflow-y-scroll">
+                    <ul className="absolute top-full right-0 w-max border-black border-2 bg-white max-h-40 overflow-y-scroll z-10">
                         {recipe_tags.map((item) => (
                             <li key={item.tag_id} className="p-2 hover:bg-gray-200" onMouseDown={(e) => e.preventDefault()}>
                                 <input
