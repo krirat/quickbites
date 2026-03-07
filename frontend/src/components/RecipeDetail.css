@@ -3,7 +3,7 @@
   display: flex;
   gap: 40px;
   padding: 60px 40px;
-  background-color: #fce181; /* Matching the yellow from the screenshot */
+  background-color: #ffd470; /* Matching the yellow from the screenshot */
   font-family: 'Georgia', serif;
   min-height: 100vh;
 }

@@ -6,7 +6,7 @@ const styles = {
     display: "flex",
     gap: "40px",
     padding: "60px",
-    backgroundColor: "#efc66b",
+    backgroundColor: "#ffd470",
     fontFamily: "Georgia, serif",
     overflow: "hidden"
   },
@@ -83,6 +83,7 @@ const Card = ({ image, title, desc, time, tags, onClick }) => (
 const RecipeOfTheDay = () => {
   const navigate = useNavigate(); // 2. Initialize the hook
 
+
   const handleViewRecipe = (id = 1) => {
     // Navigates to the route defined in your App.js
     navigate(`/recipes/${id}`);
@@ -95,7 +96,7 @@ const RecipeOfTheDay = () => {
           Recipe of <br /> the day
         </h1>
         {/* 3. Added the onClick to her button */}
-        <button style={styles.button} onClick={() => handleViewRecipe(1)}>
+        <button style={styles.button} onClick={() => navigate('/recipes')}>
           VIEW FULL RECIPE
         </button>
       </div>

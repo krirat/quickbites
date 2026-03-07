@@ -33,7 +33,7 @@ function IntroSection({ recipeId }) {
     };
 
     return (
-        <div className="bg-[#fce181] w-full p-8">
+        <div className="bg-[#ffd470] w-full p-8">
             <div className="flex justify-between items-center">
                 {/*TODO: use relative position for white bg */}
                 <img src={currentRecipe.img} alt="Intro Image" className="intro-image rotate-[9deg]" style={{ width: '500px', height: 'auto' }} />
