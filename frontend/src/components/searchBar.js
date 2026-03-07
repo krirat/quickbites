@@ -1,62 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, createSearchParams } from 'react-router';
 import useDebounce from './useDebounce';
 
 
-const data = [
-    { id: 1, title: 'Spaghetti Carbonara' },
-    { id: 2, title: 'Chicken Alfredo' },
-    { id: 3, title: 'Chicken Noodle Soup' },
-    { id: 4, title: 'Pad Krapow' },
-]
 
 
 /**
-@param {string} data_source - The URL of the data source to fetch data from
+@param {Array} recipe_tags - The array of recipe tags to display in the filter dropdown
+@param {string} initialInput - The initial value for the search input field (optional)
+@param {function} onInput - Callback function to handle changes in the search input and selected tags
+@param {function} onTagToggle - Callback function to handle tag selection changes
 @returns {JSX.Element} The SearchBar component
 */
-function SearchBar({ data_source }) {
-    const [search, setSearch] = useState('');
-    const [filteredTags, setFilteredTags] = useState([]);
+function SearchBar({ recipe_tags, initialInput = '', onInput, onTagToggle }) {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        setFilteredTags(data_source);
-    }, [data_source]);
-
-    //start searching after user stops typing for 800ms
-    // useDebounce(() => {
-    //     setFilteredTags(
-    //         data_source.filter((d) => d.tag_name.toLowerCase().includes(search.toLowerCase()))
-    //     );
-    // }, [data_source, search], 800
-    // );
 
     const toggleTag = (id) => {
-        setFilteredTags((prev) =>
-            prev.map((tag) => ({
-                ...tag,
-                selected: tag.id === id ? !tag.selected : tag.selected
-            }))
-        );
+        onTagToggle(id);
     };
 
-
-
-    const handleSearchInput = (e) => setSearch(e.target.value);
-
-    const handleSearch = () => {
-        const selectedTags = filteredTags.filter(tag => tag.selected).map(tag => tag.id);
-        const params = createSearchParams({
-            q: search,
-            tags: selectedTags.join(',')
-        });
-        navigate({
-            pathname: '/recipes',
-            search: `?${params.toString()}`
-        });
-    };
+    const handleSearchInput = (e) => onInput(e.target.value);
 
     return (
         <div className="flex border-black border-2 max-w-screen-sm">
@@ -66,7 +28,7 @@ function SearchBar({ data_source }) {
                 type="text"
                 spellCheck="false"
                 placeholder="Find a recipe"
-                value={search || ''}
+                value={initialInput}
                 onChange={handleSearchInput}
             />
             <div className="relative h-full">
@@ -77,16 +39,15 @@ function SearchBar({ data_source }) {
                 >
                     Filter
                 </button>
-                {console.log(filteredTags)}
                 {isFilterOpen && (
-                    <ul className="absolute top-full left-0 w-max border-black border-2 bg-white max-h-40 overflow-y-scroll">
-                        {data_source.map((item) => (
-                            <li key={item.id} className="p-2 hover:bg-gray-200" onMouseDown={(e) => e.preventDefault()}>
+                    <ul className="absolute top-full right-0 w-max border-black border-2 bg-white max-h-40 overflow-y-scroll">
+                        {recipe_tags.map((item) => (
+                            <li key={item.tag_id} className="p-2 hover:bg-gray-200" onMouseDown={(e) => e.preventDefault()}>
                                 <input
                                     type="checkbox"
                                     className="mr-2"
                                     checked={item.selected}
-                                    onChange={() => toggleTag(item.id)}
+                                    onChange={() => toggleTag(item.tag_id)}
                                 />
                                 {item.tag_name}
                             </li>
@@ -94,9 +55,6 @@ function SearchBar({ data_source }) {
                     </ul>
                 )}
             </div>
-            <button className="border-black border-l-2 px-5 py-2 bg-[#a4a507] hover:bg-[#8a8b06]" onClick={() => handleSearch()}>
-                Search
-            </button>
         </div>
     );
 }

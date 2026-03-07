@@ -1,21 +1,45 @@
 import { useEffect, useState } from "react";
+import { createSearchParams, useNavigate } from "react-router";
 import SearchBar from "./searchBar";
 
 export default function HeroSection() {
     const API_URL = "http://localhost:5003/api/tags";
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         fetch(API_URL)
             .then((response) => response.json())
             .then((data) => {
-                setData(data);
+                setData(data.map(tag => ({ ...tag, selected: false })));
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
     }, []);
 
+
+    const handleSearch = () => {
+        const selectedTags = data.filter(tag => tag.selected).map(tag => tag.tag_id);
+        const params = createSearchParams({
+            q: search,
+            tags: selectedTags.join(',')
+        });
+        navigate({
+            pathname: '/recipes',
+            search: `?${params.toString()}`
+        });
+    };
+
+    const toggleTag = (id) => {
+        setData((prev) =>
+            prev.map((tag) => ({
+                ...tag,
+                selected: tag.tag_id === id ? !tag.selected : tag.selected
+            }))
+        );
+    };
 
     return (
         <div className="flex flex-col items-center justify-center text-center gap-4 py-10 bg-[#ffd470]">
@@ -55,7 +79,10 @@ export default function HeroSection() {
                 />
 
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4">
-                    <SearchBar data_source={data} />
+                    <SearchBar recipe_tags={data} onTagToggle={toggleTag} initialInput={search} onInput={setSearch} />
+                    <button className="search-btn mt-4" onClick={handleSearch}>
+                        Search
+                    </button>
                 </div>
             </div>
         </div>
