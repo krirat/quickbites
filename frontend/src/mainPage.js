@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MainPage.css';
-import { useNavigate } from 'react-router'; // ✅ Added
+import { useNavigate } from 'react-router';
 import RecipeOfTheDay from "./components/RecipeOfTheDay";
 import HeroSection from './components/HeroSection';
 
@@ -8,7 +8,8 @@ function MainPage() {
     const [ingredientsList, setIngredientsList] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [filteredRecipes, setFilteredRecipes] = useState([]);
-    const navigate = useNavigate(); // ✅ Added
+    const [ingredientSearch, setIngredientSearch] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:5003/api/ingredients')
@@ -40,14 +41,33 @@ function MainPage() {
             .catch(err => console.error("Search failed:", err));
     };
 
+    const filteredIngredients = ingredientsList.filter(ing =>
+        ing.ingredient_name.toLowerCase().includes(ingredientSearch.toLowerCase())
+    );
+
     return (
         <div className="main-container">
             <HeroSection />
             <RecipeOfTheDay />
+    
+            {/* h1 อยู่นอก kitchen-card แต่ยังอยู่ใน main-container */}
+            <h1 className="kitchen-title">What's in your kitchen?</h1>
+    
             <div className="kitchen-card">
-                <h1>What's in your kitchen?</h1>
+                {/* Search bar */}
+                <div className="ingredient-search-wrap">
+                    <span className="search-icon">🔍</span>
+                    <input
+                        type="text"
+                        className="ingredient-search"
+                        placeholder="Other ingredients"
+                        value={ingredientSearch}
+                        onChange={(e) => setIngredientSearch(e.target.value)}
+                    />
+                </div>
+    
                 <div className="ingredient-grid">
-                    {ingredientsList.map(ing => (
+                    {filteredIngredients.map(ing => (
                         <label key={ing.ingredient_id} className="checkbox-container">
                             <input
                                 type="checkbox"
@@ -58,11 +78,12 @@ function MainPage() {
                         </label>
                     ))}
                 </div>
+    
                 <button className="search-btn" onClick={handleSearch}>
                     Search
                 </button>
             </div>
-
+    
             <section className="results-section">
                 {filteredRecipes.length > 0 ? (
                     <div className="recipe-list">
@@ -70,7 +91,6 @@ function MainPage() {
                             <div key={recipe.recipe_id} className="recipe-card">
                                 <h3>{recipe.recipe_name}</h3>
                                 <p>{recipe.description}</p>
-                                {/* ✅ Now navigates to the full recipe page */}
                                 <button
                                     className="view-recipe-btn"
                                     onClick={() => navigate(`/recipes/${recipe.recipe_id}`)}
@@ -87,5 +107,4 @@ function MainPage() {
         </div>
     );
 }
-
 export default MainPage;
