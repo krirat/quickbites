@@ -118,6 +118,16 @@ export default function RecipeCards() {
     );
   };
 
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesSearch = recipe.title.toLowerCase().includes(search.toLowerCase()) ||
+      recipe.description.toLowerCase().includes(search.toLowerCase());
+    const matchesTags = tags.filter(t => t.selected).length === 0 ||
+      tags.filter(t => t.selected).some(selectedTag =>
+        recipe.tags.some(recipeTag => recipeTag.label === selectedTag.label)
+      );
+    return matchesSearch && matchesTags;
+  });
+
   return (
     <>
       <style>{`
@@ -402,7 +412,7 @@ export default function RecipeCards() {
         </div>
 
         <div className="grid">
-          {recipes.map((r) => (
+          {filteredRecipes.map((r) => (
             <div
               key={r.id}
               className={`card${selected === r.id ? " selected" : ""}`}
