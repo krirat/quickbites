@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import SearchBar from "./searchBar";
 import Tags from "./Tags";
 
@@ -87,6 +87,36 @@ export default function RecipeCards() {
   const [selected, setSelected] = useState(1);
   const [hovered, setHovered] = useState(null);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const API_URL = "http://localhost:5003/api/tags";
+  const [tags, setTags] = useState([]);
+  const [search, setSearch] = useState(searchParams.get("q") || '');
+
+  useEffect(() => {
+    fetch(API_URL)
+      .then((response) => response.json())
+      .then((data) => {
+        const tagsWithSelection = data.map(tag => ({
+          ...tag,
+          selected: searchParams.get("tags") && searchParams.get("tags").split(',').includes(tag.tag_id.toString())
+        }));
+        setTags(tagsWithSelection);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [searchParams]);
+
+
+  const toggleTag = (id) => {
+    setTags((prev) =>
+      prev.map((tag) => ({
+        ...tag,
+        selected: tag.tag_id === id ? !tag.selected : tag.selected
+      }))
+    );
+  };
 
   return (
     <>
@@ -364,8 +394,11 @@ export default function RecipeCards() {
         <h1 className="page-title">Full Recipes</h1>
 
         <div className="flex flex-col items-center gap-4 mb-8">
-          <SearchBar data_source="http://localhost:5003/api/recipes" />
-          <Tags tags={["Italian", "Beef"]} />
+          <div className="flex flex-col items-start w-1/2 gap-4">
+            <SearchBar recipe_tags={tags} onTagToggle={toggleTag} initialInput={search} onInput={setSearch} />
+            <Tags tags={tags.filter((tag) => tag.selected)} />
+
+          </div>
         </div>
 
         <div className="grid">
