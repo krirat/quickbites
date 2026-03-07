@@ -43,6 +43,21 @@ app.get('/api/ingredients', (req, res) => {
     });
 });
 
+
+app.get('/api/tags', (req, res) => {
+    // TRAP CHECK: Double check if your table is 'ingredient' or 'ingredients'
+    const sql = "SELECT * FROM tag";
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("❌ SQL ERROR:", err.message);
+            // Safety Net: Return an empty array so .map() doesn't crash the frontend
+            return res.status(500).json([]);
+        }
+        res.json(results);
+    });
+});
+
 app.get('/api/recipe/:id', (req, res) => {
     const recipeId = Number.parseInt(req.params.id, 10);
 
