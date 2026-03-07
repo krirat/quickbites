@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import SearchBar from "./searchBar";
 import Tags from "./Tags";
 
@@ -85,6 +86,7 @@ const recipes = [
 export default function RecipeCards() {
   const [selected, setSelected] = useState(1);
   const [hovered, setHovered] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -95,14 +97,44 @@ export default function RecipeCards() {
 
         body {
           font-family: 'DM Sans', sans-serif;
-          background: #F9C846;
+          background: ##ffd470;
           min-height: 100vh;
         }
 
         .page {
           min-height: 100vh;
-          background: #F9C846;
+          background: #ffd470;
           padding: 48px 40px;
+        }
+
+        .back-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: none;
+          border: 2px solid #1A1A1A;
+          padding: 10px 22px;
+          cursor: pointer;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 600;
+          font-size: 14px;
+          letter-spacing: 0.05em;
+          margin-bottom: 32px;
+          border-radius: 10px;
+          transition: background 0.2s, color 0.2s;
+        }
+
+        .back-btn:hover {
+          background: #1A1A1A;
+          color: #F9C846;
+        }
+
+        .page-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 42px;
+          font-weight: 700;
+          color: #1A1A1A;
+          margin-bottom: 32px;
         }
 
         .grid {
@@ -323,11 +355,19 @@ export default function RecipeCards() {
       `}</style>
 
       <div className="page">
+
+        {/* Back Button */}
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          ← Back
+        </button>
+
         <h1 className="page-title">Full Recipes</h1>
+
         <div className="flex flex-col items-center gap-4 mb-8">
           <SearchBar data_source="http://localhost:5003/api/recipes" />
           <Tags tags={["Italian", "Beef"]} />
         </div>
+
         <div className="grid">
           {recipes.map((r) => (
             <div
