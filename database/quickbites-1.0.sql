@@ -10,7 +10,16 @@ CREATE TABLE `recipe` (
   `difficulty` varchar(255),
   `instructions` text,
   `base_servings` int,
-  `calories_per_serving` float
+  `calories_per_serving` float,
+  `finshed_dish_image_url` varchar(255),
+  `step1_images` text,
+  `step2_images` text,
+  `step3_images` text,
+  `step4_images` text,
+  `step5_images` text,
+  `step6_images` text,
+  `step7_images` text,
+  `step8_images` text
 );
 
 CREATE TABLE `nutrition` (
@@ -79,7 +88,7 @@ ALTER TABLE `recipe_tag` ADD FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`);
 -- Data insertions
 
 -- RECIPES
-INSERT INTO recipe (recipe_name, description, total_time_minutes, difficulty, instructions, base_servings, calories_per_serving) VALUES
+INSERT INTO recipe (recipe_name, description, total_time_minutes, difficulty, instructions, base_servings, calories_per_serving, finshed_dish_image_url, step1_images, step2_images, step3_images, step4_images, step5_images, step6_images, step7_images, step8_images) VALUES
 ('German lentil stew with spaetzle (Linsen mit Spätzle)', 'Tender lentils cooked in a rich broth with aromatic soup vegetables and bacon, paired with fluffy spaetzle.', 40, 'Medium', '1. Dice onion and bacon. Sauté in butter. Add flour. 2. Add lentils and broth. Simmer 30 min. 3. Cook spaetzle. Heat sausages. Season lentils with vinegar.', 4, 845.0),
 ('Creamy mapo tofu udon', 'A viral recipe combining silken tofu sauce with spicy mapo beef.', 20, 'Easy', '1. Fry garlic, scallions, gochujang, and beef. 2. Cook udon. Blend tofu with miso. 3. Assemble noodles, tofu sauce, and beef.', 2, 885.0),
 ('Cozy wild rice soup with sweet potato and mushrooms', 'A warming vegan soup with Cajun seasoning.', 20, 'Easy', '1. Cook wild rice. Sauté veggies. 2. Add broth and spices. Simmer 15 min. 3. Add coconut cream and kale.', 2, 491.0),
