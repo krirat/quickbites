@@ -42,12 +42,15 @@ function SearchBar({ recipe_tags, initialInput = '', onInput, onTagToggle }) {
                 {isFilterOpen && (
                     <ul className="absolute top-full right-0 w-max border-black border-2 bg-white max-h-40 overflow-y-scroll z-10">
                         {recipe_tags.map((item) => (
-                            <li key={item.tag_id} className="p-2 hover:bg-gray-200" onMouseDown={(e) => e.preventDefault()}>
+                            <li key={item.tag_id} className="p-2 hover:bg-gray-200" onMouseDown={(e) => e.preventDefault()} onClick={() => toggleTag(item.tag_id)}>
                                 <input
                                     type="checkbox"
                                     className="mr-2"
                                     checked={item.selected}
-                                    onChange={() => toggleTag(item.tag_id)}
+                                    onChange={(e) => {
+                                        e.stopPropagation(); // Prevent the click event from bubbling up to the <li> element
+                                        toggleTag(item.tag_id);
+                                    }}
                                 />
                                 {item.tag_name}
                             </li>
