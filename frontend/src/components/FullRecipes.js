@@ -466,7 +466,7 @@ export default function RecipeCards() {
       <div className="page">
 
         {/* Back Button */}
-        <button className="back-btn" onClick={() => navigate(-1)}>
+        <button className="back-btn" onClick={() => navigate('/')}>
           ← Back
         </button>
 
