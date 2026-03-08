@@ -1,7 +1,7 @@
 import React from 'react';
 import Tags from './Tags';
 
-function IntroSection({ recipeId }) {
+function IntroSection({ recipeId, recipeData }) {
     const difficultyToStars = (difficulty) => {
         switch (difficulty.toLowerCase()) {
             case 'easy': return 1;
@@ -12,28 +12,28 @@ function IntroSection({ recipeId }) {
         }
     };
 
-    const recipeData = {
-        "1": {
-            title: "Spaghetti Bolognese",
-            difficulty: "Easy",
-            prep: "25 min",
-            cook: "30 min",
-            bake: "0 min",
-            tags: ["Has Lactose", "Beef", "Garlic"],
-            img: "https://images.services.kitchenstories.io/WmlcnmcFjLeDxrwIiV9zSGJkcl0=/640x0/filters:quality(80)/images.kitchenstories.io/wagtailOriginalImages/R150-final-photo-2.jpg"
-        },
-        "2": {
-            title: "Honey Orange Fizz",
-            difficulty: "Medium",
-            prep: "10 min",
-            cook: "0 min",
-            bake: "0 min",
-            tags: ["Beverage", "Refreshing", "Citrus"],
-            img: "https://images.unsplash.com/photo-1546171753-97d7676e4602"
-        }
-    };
+    // const recipeData = {
+    //     "1": {
+    //         title: "Spaghetti Bolognese",
+    //         difficulty: "Easy",
+    //         prep: "25 min",
+    //         cook: "30 min",
+    //         bake: "0 min",
+    //         tags: ["Has Lactose", "Beef", "Garlic"],
+    //         img: "https://images.services.kitchenstories.io/WmlcnmcFjLeDxrwIiV9zSGJkcl0=/640x0/filters:quality(80)/images.kitchenstories.io/wagtailOriginalImages/R150-final-photo-2.jpg"
+    //     },
+    //     "2": {
+    //         title: "Honey Orange Fizz",
+    //         difficulty: "Medium",
+    //         prep: "10 min",
+    //         cook: "0 min",
+    //         bake: "0 min",
+    //         tags: ["Beverage", "Refreshing", "Citrus"],
+    //         img: "https://images.unsplash.com/photo-1546171753-97d7676e4602"
+    //     }
+    // };
 
-    const currentRecipe = recipeData[recipeId] || {
+    const currentRecipe = recipeData || {
         title: "Chicken Alfredo",
         difficulty: "Easy",
         prep: "45 min",
@@ -52,10 +52,10 @@ function IntroSection({ recipeId }) {
     ];
 
     const parseMinutes = (str) => parseInt(str) || 0;
-    const totalMinutes =
-        parseMinutes(currentRecipe.prep) +
-        parseMinutes(currentRecipe.cook) +
-        parseMinutes(currentRecipe.bake);
+    const totalMinutes = recipeData.recipe.total_time_minutes;
+    // parseMinutes(currentRecipe.prep) +
+    // parseMinutes(currentRecipe.cook) +
+    // parseMinutes(currentRecipe.bake);
     const totalCookTime = `${totalMinutes} min`;
 
     const Stars = ({ difficulty, max = 4 }) => {
@@ -91,8 +91,8 @@ function IntroSection({ recipeId }) {
                         style={{ transform: 'rotate(-4deg)', borderRadius: '2px' }}
                     />
                     <img
-                        src={currentRecipe.img}
-                        alt={currentRecipe.title}
+                        src={currentRecipe.recipe.img}
+                        alt={currentRecipe.recipe.recipe_name}
                         className="absolute"
                         style={{
                             top: '16px',
@@ -108,12 +108,12 @@ function IntroSection({ recipeId }) {
                 {/* Right side info */}
                 <div className="flex flex-col flex-1 pl-8">
                     <h1 className="font-bold text-5xl leading-tight mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-                        {currentRecipe.title}
+                        {currentRecipe.recipe.recipe_name}
                     </h1>
 
                     {/* Stars + time badge */}
                     <div className="flex items-center gap-4">
-                        <Stars difficulty={currentRecipe.difficulty} />
+                        <Stars difficulty={currentRecipe.recipe.difficulty} />
                         <div className="flex items-center gap-1 bg-white rounded-full px-3 py-1 text-sm font-semibold shadow-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
@@ -127,7 +127,7 @@ function IntroSection({ recipeId }) {
                     {/* Info cards */}
                     <div className="flex gap-3 mb-4">
                         {[
-                            { label: "Difficulty", value: currentRecipe.difficulty },
+                            { label: "Difficulty", value: currentRecipe.recipe.difficulty },
                             { label: "Preparation", value: currentRecipe.prep },
                             { label: "Total Time", value: totalCookTime },
                         ].map(({ label, value }) => (
@@ -140,14 +140,7 @@ function IntroSection({ recipeId }) {
 
                     {/* Tag pills */}
                     <div className="flex gap-2 flex-wrap">
-                        {currentRecipe.tags.map((tag, index) => (
-                            <span
-                                key={index}
-                                className={`text-xs font-semibold px-3 py-1 rounded-full ${tagColors[index % tagColors.length]}`}
-                            >
-                                {tag}
-                            </span>
-                        ))}
+                        <Tags tags={currentRecipe.tags} />
                     </div>
                 </div>
 
