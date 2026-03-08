@@ -36,7 +36,7 @@ function RecipePage() {
         <div className="recipe-page-container relative">
             {/* 3. The Back Button */}
             <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate(-1)}
                 className="absolute top-4 left-4 z-10 bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors shadow-lg"
             >
                 ← Back to Menu
