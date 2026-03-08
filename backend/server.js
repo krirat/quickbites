@@ -146,10 +146,15 @@ app.get('/api/get-recipes', (req, res) => {
             r.description,
             r.total_time_minutes,
             r.difficulty,
-            tg.tag_name
+            tg.tag_id,
+            tg.tag_name,
+            i.ingredient_id,
+            i.ingredient_name
         FROM recipe r
         LEFT JOIN recipe_tag rt ON rt.recipe_id = r.recipe_id
         LEFT JOIN tag tg ON tg.tag_id = rt.tag_id
+        LEFT JOIN recipe_ingredient ri ON ri.recipe_id = r.recipe_id
+        LEFT JOIN ingredient i ON i.ingredient_id = ri.ingredient_id
         ORDER BY r.recipe_id;
     `;
 
@@ -160,15 +165,21 @@ app.get('/api/get-recipes', (req, res) => {
         }
 
         const result = Object.values(results.reduce((acc, recipe) => {
-            const { recipe_id, tag_name } = recipe;
+            const { recipe_id, tag_id, tag_name, ingredient_id, ingredient_name } = recipe;
 
             if (!acc[recipe_id]) {
                 // Create new entry with tag_name as an array
-                acc[recipe_id] = { ...recipe, tag_name: [tag_name] };
+                acc[recipe_id] = { ...recipe, tag_id: [tag_id], tag_name: [tag_name], ingredient_id: [ingredient_id], ingredient_name: [ingredient_name] };
             } else {
                 // Add tag to existing entry if it's not already there
                 if (!acc[recipe_id].tag_name.includes(tag_name)) {
+                    acc[recipe_id].tag_id.push(tag_id);
                     acc[recipe_id].tag_name.push(tag_name);
+                }
+                // Add ingredient to existing entry if it's not already there
+                if (!acc[recipe_id].ingredient_name.includes(ingredient_name)) {
+                    acc[recipe_id].ingredient_id.push(ingredient_id);
+                    acc[recipe_id].ingredient_name.push(ingredient_name);
                 }
             }
             return acc;
