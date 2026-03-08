@@ -63,7 +63,7 @@ const RecipeDetail = () => {
         <ul className="ingredient-list">
           {recipe.ingredients.map((ing, index) => (
             <li key={index}>
-              <span className="ing-name">• {ing.name}</span>
+              <span className="ing-name">• {ing.name}  </span>
               <span className="ing-amount">
                 {getDisplayAmount(ing.amount, ing.ratio)} {isMetric ? ing.unit : ing.imperialUnit}
               </span>
