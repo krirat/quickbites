@@ -87,14 +87,16 @@ export default function RecipeCards() {
   const [selected, setSelected] = useState(1);
   const [hovered, setHovered] = useState(null);
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const API_URL = "http://localhost:5003/api/tags";
+  const API_URL = "http://localhost:5003/api";
   const [tags, setTags] = useState([]);
   const [search, setSearch] = useState(searchParams.get("q") || '');
+  const [ingredients, setIngredients] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    fetch(API_URL)
+    fetch(API_URL + "/tags")
       .then((response) => response.json())
       .then((data) => {
         const tagsWithSelection = data.map(tag => ({
@@ -106,7 +108,38 @@ export default function RecipeCards() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    fetch(API_URL + "/ingredients")
+      .then((response) => response.json())
+      .then((data) => {
+        setIngredients(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching ingredients:", error);
+      });
+    fetch(API_URL + "/get-recipes")
+      .then((response) => response.json())
+      .then((data) => {
+        const normalizedRecipes = data.map((recipe) => ({
+          ...recipe,
+          id: recipe.recipe_id ?? recipe.id,
+          title: recipe.recipe_name ?? recipe.title ?? "",
+          tags: (recipe.tag_id || []).map((tagId, index) => ({
+            tag_id: Number(tagId),
+            tag_name: recipe.tag_name?.[index] || ""
+          })),
+          ingredients: (recipe.ingredient_id || []).map((ingredientId, index) => ({
+            ingredient_id: Number(ingredientId),
+            ingredient_name: recipe.ingredient_name?.[index] || ""
+          }))
+        }));
+        setRecipes(normalizedRecipes);
+      })
+      .catch((error) => {
+        console.error("Error fetching recipes:", error);
+      });
+
   }, [searchParams]);
+
 
 
   const toggleTag = (id) => {
@@ -118,14 +151,51 @@ export default function RecipeCards() {
     );
   };
 
+  const selectedTagIds = tags
+    .filter((tag) => tag.selected)
+    .map((tag) => Number(tag.tag_id));
+
+  const selectedIngredientFilters = (searchParams.get("ingredients") || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
   const filteredRecipes = recipes.filter((recipe) => {
-    const matchesSearch = recipe.title.toLowerCase().includes(search.toLowerCase()) ||
-      recipe.description.toLowerCase().includes(search.toLowerCase());
-    const matchesTags = tags.filter(t => t.selected).length === 0 ||
-      tags.filter(t => t.selected).some(selectedTag =>
-        recipe.tags.some(recipeTag => recipeTag.label === selectedTag.label)
-      );
-    return matchesSearch && matchesTags;
+    const recipeName = (recipe.recipe_name || recipe.title || "").toLowerCase();
+    const recipeDescription = (recipe.description || "").toLowerCase();
+    const recipeIngredientNames = Array.isArray(recipe.ingredients)
+      ? recipe.ingredients.map((ingredient) => String(ingredient.ingredient_name).toLowerCase())
+      : [];
+    const recipeTagIds = Array.isArray(recipe.tags)
+      ? recipe.tags.map((tag) => Number(tag.tag_id))
+      : [];
+    const recipeIngredientIds = Array.isArray(recipe.ingredients)
+      ? recipe.ingredients.map((ingredient) => Number(ingredient.ingredient_id))
+      : [];
+
+    const normalizedSearch = search.trim().toLowerCase();
+    const matchesSearch = !normalizedSearch ||
+      recipeName.includes(normalizedSearch) ||
+      recipeDescription.includes(normalizedSearch) ||
+      recipeIngredientNames.some((ingredient) => ingredient.includes(normalizedSearch));
+
+    const matchesTags =
+      selectedTagIds.length === 0 ||
+      selectedTagIds.some((selectedTagId) => recipeTagIds.includes(selectedTagId));
+
+    const matchesIngredients =
+      selectedIngredientFilters.length === 0 ||
+      selectedIngredientFilters.every((selectedIngredient) => {
+        const selectedId = Number(selectedIngredient);
+        if (!Number.isNaN(selectedId)) {
+          return recipeIngredientIds.includes(selectedId);
+        }
+
+        const selectedName = selectedIngredient.toLowerCase();
+        return recipeIngredientNames.some((ingredientName) => ingredientName.includes(selectedName));
+      });
+
+    return matchesSearch && matchesTags && matchesIngredients;
   });
 
   return (
@@ -330,7 +400,6 @@ export default function RecipeCards() {
 
         .tag-bar {
           flex: 1;
-          height: 8px;
           background: #E5E7EB;
           border-radius: 99px;
           min-width: 40px;
@@ -416,34 +485,25 @@ export default function RecipeCards() {
             <div
               key={r.id}
               className={`card${selected === r.id ? " selected" : ""}`}
-              onClick={() => setSelected(r.id)}
+              onClick={() => { setSelected(r.id); navigate(`/recipes/${r.id}`); }}
               onMouseEnter={() => setHovered(r.id)}
               onMouseLeave={() => setHovered(null)}
             >
-              <div className="card-image-wrap">
-                <img src={r.image} alt={r.title} />
+              <div className="card-image-wrap bg-gray-300">
+                <img src={r.image} alt={r.recipe_name} />
               </div>
 
               <div className="card-body">
-                <h2 className="card-title">{r.title}</h2>
+                <h2 className="card-title">{r.recipe_name}</h2>
 
                 <div className="card-meta">
                   <div className="card-time">
                     <div className="clock-icon" />
-                    {r.time}
+                    {r.total_time_minutes} min
                   </div>
-                  <div className="tags-row">
-                    {r.tags.map((tag, i) => (
-                      <div
-                        key={i}
-                        className="tag"
-                        style={{ background: tag.color }}
-                        title={tag.label}
-                      >
-                        {tag.label.length <= 2 ? tag.label : tag.label.slice(0, 1)}
-                      </div>
-                    ))}
-                    <div className="tag-bar" />
+                  <div className="tags-row relative overflow-x-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="absolute tag-bar -z-10 w-full h-full" />
+                    <Tags tags={r.tags} small={true} />
                   </div>
                 </div>
 

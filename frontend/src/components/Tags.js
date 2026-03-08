@@ -40,16 +40,16 @@ const tagColorMap = {
 };
 
 
-export default function Tags({ tags }) {
+export default function Tags({ tags, small = false }) {
     return (
-        <div className="flex gap-2">
+        <div className={`flex gap-2 ${small ? 'text-xs' : ''}`}>
             {tags.map((tag) => (
                 <span
-                    key={tag.tag_id}
+                    key={tag.tag_id || tag.tag_name}
                     className="text-white px-3 py-1 rounded-full border-2 border-black"
                     style={{ backgroundColor: tagColorMap[tag.tag_name] || '#95A5A6' }}
                 >
-                    {tag.tag_name}
+                    {small ? tag.tag_name.slice(0, 2).toUpperCase() : tag.tag_name}
                 </span>
             ))}
         </div>
