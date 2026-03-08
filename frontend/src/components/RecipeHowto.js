@@ -29,8 +29,6 @@ const MOCK_STEPS = [
 ];
 
 const TORN_FRAME_PNG = "/tornpaper.png";
-
-// Final dish image shown in the "Enjoy your meal!" section
 const MOCK_FINAL_IMAGE = "https://images.services.kitchenstories.io/WmlcnmcFjLeDxrwIiV9zSGJkcl0=/640x0/filters:quality(80)/images.kitchenstories.io/wagtailOriginalImages/R150-final-photo-2.jpg";
 
 const styles = `
@@ -47,14 +45,13 @@ const styles = `
     background-color: #FFD470;
   }
 
-  /* Step row */
   .recipe-step-row {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 48px;
     max-width: 1200px;
-    margin: 0 auto 90px auto;
+    margin: 0 auto -60px auto;
   }
 
   .recipe-step-row.reverse {
@@ -68,7 +65,7 @@ const styles = `
 
   .torn-paper-container {
     position: relative;
-    display: block;
+    display: grid;
     width: 100%;
     transform: rotate(-1.5deg);
     filter: drop-shadow(4px 8px 20px rgba(0, 0, 0, 0.28));
@@ -82,19 +79,19 @@ const styles = `
     display: block;
     width: 100%;
     height: auto;
+    grid-area: 1 / 1;
   }
 
   .step-photo {
-    position: absolute;
-    top: 25%;
-    left: 15%;
+    grid-area: 1 / 1;
     width: 75%;
     height: 50%;
     object-fit: cover;
     z-index: 2;
+    align-self: center;
+    justify-self: center;
   }
 
-  /* Text side */
   .step-text {
     flex: 1;
   }
@@ -115,7 +112,6 @@ const styles = `
     margin: 0;
   }
 
-  /* Enjoy your meal section */
   .enjoy-section {
     max-width: 1200px;
     margin: 40px auto 60px auto;
@@ -172,13 +168,12 @@ const styles = `
 
   .enjoy-photo {
     display: block;
-    width: 320px;
-    height: 240px;
+    width: 400px;
+    height: 400x;
     object-fit: cover;
     border-radius: 2px;
   }
 
-  /* Responsive */
   @media (max-width: 680px) {
     .recipe-step-row,
     .recipe-step-row.reverse {
@@ -285,7 +280,6 @@ function RecipeHowto() {
           );
         })}
 
-        {/* Enjoy your meal section */}
         <div className="enjoy-section">
           <p className="enjoy-label">Enjoy your meal!</p>
           <div className="enjoy-plaid-wrap">
