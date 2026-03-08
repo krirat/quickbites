@@ -204,14 +204,12 @@ function RecipeHowto() {
   useEffect(() => {
     const fetchSteps = async () => {
       try {
-        setSteps(MOCK_STEPS);
+        //setSteps(MOCK_STEPS);
 
-        /* // Real fetch — uncomment when backend is fixed:
-        const response = await fetch(`http://localhost:5003/api/recipes/${id}/steps`);
+        const response = await fetch(`http://localhost:5003/api/recipe/${id}`);
         if (!response.ok) throw new Error("Failed to fetch steps");
         const data = await response.json();
-        setSteps(data);
-        */
+        setSteps(data.recipe.instructions);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -238,7 +236,7 @@ function RecipeHowto() {
     );
   }
 
-  if (steps.length === 0) {
+  if (steps && steps.length === 0) {
     return (
       <div className="recipe-howto-page">
         <h2 style={{ textAlign: "center", marginTop: 80 }}>No steps found.</h2>
