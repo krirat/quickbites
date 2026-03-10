@@ -246,41 +246,43 @@ function RecipeHowto() {
       <style>{styles}</style>
       <div className="recipe-howto-page">
 
-        {steps.map((step, index) => {
-          const isEven = index % 2 === 0;
+        {steps && steps.length > 0 && (
+          steps.map((step, index) => {
+            const isEven = index % 2 === 0;
 
-          return (
-            <div
-              key={step.step_id}
-              className={`recipe-step-row${!isEven ? " reverse" : ""}`}
-            >
-              {step.image_url && (
-                <div className="step-image-wrap">
-                  <div className="torn-paper-container">
-                    <img
-                      src={TORN_FRAME_PNG}
-                      alt=""
-                      className="torn-bg"
-                      aria-hidden="true"
-                    />
-                    <img
-                      src={step.image_url}
-                      alt={`Step ${step.step_number}`}
-                      className="step-photo"
-                    />
+            return (
+              <div
+                key={step.step_id}
+                className={`recipe-step-row${!isEven ? " reverse" : ""}`}
+              >
+                {step.image_url && (
+                  <div className="step-image-wrap">
+                    <div className="torn-paper-container">
+                      <img
+                        src={TORN_FRAME_PNG}
+                        alt=""
+                        className="torn-bg"
+                        aria-hidden="true"
+                      />
+                      <img
+                        src={step.image_url}
+                        alt={`Step ${step.step_number}`}
+                        className="step-photo"
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="step-text">
-                <h2 className="step-label">
-                  Step {step.step_number} / {steps.length}
-                </h2>
-                <p className="step-instruction">{step.instruction}</p>
+                <div className="step-text">
+                  <h2 className="step-label">
+                    Step {step.step_number} / {steps.length}
+                  </h2>
+                  <p className="step-instruction">{step.instruction}</p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
 
         <div className="enjoy-section">
           <p className="enjoy-label">Enjoy your meal!</p>
