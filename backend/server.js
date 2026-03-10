@@ -146,6 +146,7 @@ app.get('/api/get-recipes', (req, res) => {
             r.description,
             r.total_time_minutes,
             r.difficulty,
+            r.image_url,
             tg.tag_id,
             tg.tag_name,
             i.ingredient_id,
