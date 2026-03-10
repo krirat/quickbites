@@ -195,6 +195,7 @@ function RecipeHowto() {
   const [steps, setSteps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [finalImage, setFinalImage] = useState(MOCK_FINAL_IMAGE);
 
   useEffect(() => {
     const fetchSteps = async () => {
@@ -205,6 +206,7 @@ function RecipeHowto() {
         if (!response.ok) throw new Error("Failed to fetch steps");
         const data = await response.json();
         setSteps(data.recipe.instructions);
+        setFinalImage(data.recipe.image_url);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -285,7 +287,7 @@ function RecipeHowto() {
           <div className="enjoy-plaid-wrap">
             <div className="enjoy-plaid">
               <img
-                src={MOCK_FINAL_IMAGE}
+                src={finalImage}
                 alt="Enjoy your meal"
                 className="enjoy-photo"
               />

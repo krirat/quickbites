@@ -3,85 +3,85 @@ import { useNavigate, useSearchParams } from "react-router";
 import SearchBar from "./searchBar";
 import Tags from "./Tags";
 
-const recipes = [
-  {
-    id: 1,
-    title: "Beef Burger",
-    time: "20 min",
-    tags: [
-      { label: "Beef", color: "#C0651A" },
-      { label: "HCal", color: "#E07B39" },
-      { label: "A", color: "#4CAF50" },
-      { label: "B", color: "#7C3AED" },
-    ],
-    description: "A sandwich featuring a cooked patty of ground beef, seasoned and shaped, served between two halves of a sliced bun.",
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
-  },
-  {
-    id: 2,
-    title: "Steak with charred corn salsa and smoky butter",
-    time: "20 min",
-    tags: [{ label: "L", color: "#4DD0C4" }],
-    description: "Try our easy steak with charred corn salsa for two. Drizzled with smoky butter, this simple one-pan dinner is ready in just 20 minutes.",
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
-  },
-  {
-    id: 3,
-    title: "Hot Thai beef salad",
-    time: "20 min",
-    tags: [{ label: "Beef", color: "#C0651A" }],
-    description: "This quick and easy Thai beef salad recipe is tasty and substantial enough to satisfy as a main course.",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80",
-  },
-  {
-    id: 4,
-    title: "Grilled Salmon with Lemon Butter",
-    time: "15 min",
-    tags: [{ label: "Fish", color: "#2196F3" }, { label: "L", color: "#4DD0C4" }],
-    description: "Perfectly grilled salmon fillet with a zesty lemon butter sauce, served with seasonal greens and roasted cherry tomatoes.",
-    image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80",
-  },
-  {
-    id: 5,
-    title: "Mushroom Risotto",
-    time: "35 min",
-    tags: [{ label: "V", color: "#4CAF50" }, { label: "A", color: "#9C27B0" }],
-    description: "Creamy Italian risotto packed with wild mushrooms, parmesan and fresh thyme. A comforting bowl of pure indulgence.",
-    image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80",
-  },
-  {
-    id: 6,
-    title: "Avocado Toast with Poached Eggs",
-    time: "10 min",
-    tags: [{ label: "V", color: "#4CAF50" }, { label: "B", color: "#7C3AED" }],
-    description: "Smashed avocado on sourdough toast topped with perfectly poached eggs, chilli flakes and a drizzle of olive oil.",
-    image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c820?w=600&q=80",
-  },
-  {
-    id: 7,
-    title: "Spicy Chicken Tacos",
-    time: "25 min",
-    tags: [{ label: "Chk", color: "#FF9800" }, { label: "HCal", color: "#E07B39" }],
-    description: "Crispy spiced chicken strips in warm tortillas with fresh salsa, guacamole and a squeeze of lime.",
-    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80",
-  },
-  {
-    id: 8,
-    title: "Caprese Salad",
-    time: "5 min",
-    tags: [{ label: "V", color: "#4CAF50" }, { label: "L", color: "#4DD0C4" }],
-    description: "Classic Italian salad with fresh buffalo mozzarella, ripe tomatoes, basil leaves and a balsamic glaze.",
-    image: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600&q=80",
-  },
-  {
-    id: 9,
-    title: "Pad Thai Noodles",
-    time: "30 min",
-    tags: [{ label: "A", color: "#4CAF50" }, { label: "HCal", color: "#E07B39" }],
-    description: "Authentic Thai stir-fried rice noodles with prawns, tofu, bean sprouts, and a tangy tamarind sauce topped with crushed peanuts.",
-    image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=600&q=80",
-  },
-];
+// const recipes = [
+//   {
+//     id: 1,
+//     title: "Beef Burger",
+//     time: "20 min",
+//     tags: [
+//       { label: "Beef", color: "#C0651A" },
+//       { label: "HCal", color: "#E07B39" },
+//       { label: "A", color: "#4CAF50" },
+//       { label: "B", color: "#7C3AED" },
+//     ],
+//     description: "A sandwich featuring a cooked patty of ground beef, seasoned and shaped, served between two halves of a sliced bun.",
+//     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
+//   },
+//   {
+//     id: 2,
+//     title: "Steak with charred corn salsa and smoky butter",
+//     time: "20 min",
+//     tags: [{ label: "L", color: "#4DD0C4" }],
+//     description: "Try our easy steak with charred corn salsa for two. Drizzled with smoky butter, this simple one-pan dinner is ready in just 20 minutes.",
+//     image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+//   },
+//   {
+//     id: 3,
+//     title: "Hot Thai beef salad",
+//     time: "20 min",
+//     tags: [{ label: "Beef", color: "#C0651A" }],
+//     description: "This quick and easy Thai beef salad recipe is tasty and substantial enough to satisfy as a main course.",
+//     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80",
+//   },
+//   {
+//     id: 4,
+//     title: "Grilled Salmon with Lemon Butter",
+//     time: "15 min",
+//     tags: [{ label: "Fish", color: "#2196F3" }, { label: "L", color: "#4DD0C4" }],
+//     description: "Perfectly grilled salmon fillet with a zesty lemon butter sauce, served with seasonal greens and roasted cherry tomatoes.",
+//     image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80",
+//   },
+//   {
+//     id: 5,
+//     title: "Mushroom Risotto",
+//     time: "35 min",
+//     tags: [{ label: "V", color: "#4CAF50" }, { label: "A", color: "#9C27B0" }],
+//     description: "Creamy Italian risotto packed with wild mushrooms, parmesan and fresh thyme. A comforting bowl of pure indulgence.",
+//     image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80",
+//   },
+//   {
+//     id: 6,
+//     title: "Avocado Toast with Poached Eggs",
+//     time: "10 min",
+//     tags: [{ label: "V", color: "#4CAF50" }, { label: "B", color: "#7C3AED" }],
+//     description: "Smashed avocado on sourdough toast topped with perfectly poached eggs, chilli flakes and a drizzle of olive oil.",
+//     image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c820?w=600&q=80",
+//   },
+//   {
+//     id: 7,
+//     title: "Spicy Chicken Tacos",
+//     time: "25 min",
+//     tags: [{ label: "Chk", color: "#FF9800" }, { label: "HCal", color: "#E07B39" }],
+//     description: "Crispy spiced chicken strips in warm tortillas with fresh salsa, guacamole and a squeeze of lime.",
+//     image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80",
+//   },
+//   {
+//     id: 8,
+//     title: "Caprese Salad",
+//     time: "5 min",
+//     tags: [{ label: "V", color: "#4CAF50" }, { label: "L", color: "#4DD0C4" }],
+//     description: "Classic Italian salad with fresh buffalo mozzarella, ripe tomatoes, basil leaves and a balsamic glaze.",
+//     image: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600&q=80",
+//   },
+//   {
+//     id: 9,
+//     title: "Pad Thai Noodles",
+//     time: "30 min",
+//     tags: [{ label: "A", color: "#4CAF50" }, { label: "HCal", color: "#E07B39" }],
+//     description: "Authentic Thai stir-fried rice noodles with prawns, tofu, bean sprouts, and a tangy tamarind sauce topped with crushed peanuts.",
+//     image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=600&q=80",
+//   },
+// ];
 
 export default function RecipeCards() {
   const [selected, setSelected] = useState(1);
@@ -490,7 +490,7 @@ export default function RecipeCards() {
               onMouseLeave={() => setHovered(null)}
             >
               <div className="card-image-wrap bg-gray-300">
-                <img src={r.image} alt={r.recipe_name} />
+                <img src={r.image_url} alt={r.recipe_name} />
               </div>
 
               <div className="card-body">

@@ -91,7 +91,7 @@ function IntroSection({ recipeId, recipeData }) {
                         style={{ transform: 'rotate(-4deg)', borderRadius: '2px' }}
                     />
                     <img
-                        src={currentRecipe.recipe.img}
+                        src={currentRecipe.recipe.image_url}
                         alt={currentRecipe.recipe.recipe_name}
                         className="absolute"
                         style={{
