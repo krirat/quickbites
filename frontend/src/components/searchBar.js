@@ -47,7 +47,7 @@ function SearchBar({ recipe_tags, initialInput = '', onInput, onTagToggle }) {
                                     type="checkbox"
                                     className="mr-2"
                                     checked={item.selected}
-                                    onChange={(e) => {
+                                    onClick={(e) => {
                                         e.stopPropagation(); // Prevent the click event from bubbling up to the <li> element
                                         toggleTag(item.tag_id);
                                     }}
