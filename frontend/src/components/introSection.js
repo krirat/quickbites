@@ -128,7 +128,6 @@ function IntroSection({ recipeId, recipeData }) {
                     <div className="flex gap-3 mb-4">
                         {[
                             { label: "Difficulty", value: currentRecipe.recipe.difficulty },
-                            { label: "Preparation", value: currentRecipe.prep },
                             { label: "Total Time", value: totalCookTime },
                         ].map(({ label, value }) => (
                             <div key={label} className="bg-white rounded-xl px-5 py-3 shadow-sm flex-1 text-center">
